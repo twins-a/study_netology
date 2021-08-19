@@ -1,0 +1,43 @@
+Домашнее задание "Работа с Apache Spark"
+
+----------
+1. id контейнера смотрим:
+	docker ps
+
+2. Копирую файл в Docker:
+	docker cp movies.csv 80d2dd275d68:/opt/bitnami/spark/
+
+3. Захожу в Docker:
+	winpty docker exec -it 80d2dd275d68 bash
+
+4. Проверяю что файл есть в Dockere:
+	ls
+
+5. Запускаю spark:
+	pyspark
+
+6. Формирую RDD из текстового файла:
+	data_mov = sc.textFile('movies.csv')
+
+7. Проверяю:
+	data_mov.take(5)
+
+8. Теперь вычисления:
+
+получаю отдельные значения в виде списка:
+	data_mov.map(lambda x: x.split(',')).take(5)
+
+теперь выбираю только второй столбец:
+	data_mov.map(lambda x: x.split(',')[1]).take(5)
+
+разворачиваю список в столбец:
+	data_mov.map(lambda x: x.split(',')[1]).flatMap(lambda x: x.split(' ')).take(5)
+
+дообавляю еще один столбец с количеством 1
+	data_mov.map(lambda x: x.split(',')[1]).flatMap(lambda x: (x.split(' '))).map(lambda x: (x, 1)).take(9)
+
+получаю сумму слов
+	data_mov.map(lambda x: x.split(',')[1]).flatMap(lambda x: (x.split(' '))).map(lambda x: (x, 1)).reduceByKey(lambda a, b: a+b).take(9)
+
+сортирую по убыванию и выбираю одно слово, встречающееся больше всего раз
+	data_mov.map(lambda x: x.split(',')[1]).flatMap(lambda x: (x.split(' '))).map(lambda x: (x, 1)).reduceByKey(lambda a, b: a+b).takeOrdered(1, key=lambda x: -x[1])
