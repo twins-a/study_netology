@@ -1,0 +1,90 @@
+Полное описание файла: https://github.com/owid/covid-19-data/blob/master/public/data/README.md
+
+На скрине представил только окончательные команды по выполнению текущего домашнего задания.
+В текущем файле привожу полный перечень используемых команд.
+Работаю через контейнер.
+
+Предварительные команды:
+1. Вытаскиваю id контейнера:
+	docker ps
+	= 6d95adb3e318
+
+2. Копирую файл в Docker:
+	docker cp owid-covid-data.csv 6d95adb3e318:/opt/bitnami/spark/
+
+3. Захожу в Docker:
+	winpty docker exec -it 6d95adb3e318 bash
+
+4. Проверяю что нужный файл есть в Dockere:
+	ls
+
+5. Запускаю spark:
+	pyspark
+
+ Открываю файл:
+	df = spark.read.csv('owid-covid-data.csv')
+
+Проверяю, что файл прочитан:
+	df 
+или
+	df.show(5)
+
+Посмотреть схему:
+	df.printSсhema()
+
+Прочитать файл с заголовками
+	df = spark.read.option('header', True).csv('owid-covid-data.csv')
+
+Прочитать файл с заголовками и определить схему (поля)
+	df = spark.read.option('inferSchema', True).option('header', True).csv('owid-covid-data.csv')
+
+Проверить (посмотреть) количество строк в файле:
+	df.count()
+
+Посмотреть уникальные значения:
+	df.select('location').distinct().show()
+
+Импортировать:
+	from pyspark.sql.functions import *
+или
+	from pyspark.sql.functions import col
+
+
+**************************************************************************************************************
+Теперь само выполнение ДЗ:
+Все результаты в скрине.
+
+
+1) В первом задании необходимо: "Выберите 15 стран с наибольшим процентом переболевших... ".
+Так как в файле нет инфы о выздоровших, то я для себя принял: "переболевших" = "заболевших". Умершиих не отнимаю из заболевших.
+
+Расчет процента: процент = всего_заболевших / население * 100.
+
+	from pyspark.sql.functions import round
+	df.select('iso_code', 'location', round((df.total_cases / df.population * 100), 2).alias('percentage_of_cases')).where(col('date') == '2021-03-31').sort(col('percentage_of_cases').desc()).show(15)
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+Второе задание можно по разному понять. Поэтому сделал два способа.
+2а) Сравниваю значения new_cases по каждому дню необходимой недели. Это решение подходит когда мы хотим сравнить значения каждого дня.
+Соответственно в результат попадают одни и те же страны несколько раз с разной датой и, наоборот, попадает одна и таже дата с разными странами
+
+	df.select('date', 'location', 'new_cases').where((col('date') >= '2021-03-25') & (col('date') <= '2021-03-31') & (col('continent') != '')).sort(col('new_cases').desc()).show(10)
+
+2б) Во втором варианте беру по среднему значению за неделю (поле: new_cases_smoothed).
+В этом случае достаточно выбрать данные только за 31.03.2021. Это и есть среднее за последнюю неделю.
+
+	df.select('date', 'location', 'new_cases_smoothed').where((col('date') == '2021-03-31') & (col('continent') != '')).sort(col('new_cases_smoothed').desc()).show(10)
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+3) В третьем задании использую оконную функцию. Можно было не заводить новый framework (df3), а добавить поле в тот же (df), но я решил создать новый...
+То есть в df3 дообавил новое поле: new_cases_yesterday. И уже с ним работаю...
+
+	from pyspark.sql.functions import lag
+	from pyspark.sql.window import Window
+
+	w3 = Window().partitionBy('location').orderBy('date')
+	df3 = df.withColumn('new_cases_yesterday', lag(df.new_cases).over(w3))
+
+	df3.select('date', df3.new_cases_yesterday, df3.new_cases.alias('new_cases_today'), (df3.new_cases-df3.new_cases_yesterday).alias('delta')).where((col('date') >= '2021-03-25') & (col('date') <= '2021-03-31') & (col('location') == 'Russia')).sort(col('date')).show()
