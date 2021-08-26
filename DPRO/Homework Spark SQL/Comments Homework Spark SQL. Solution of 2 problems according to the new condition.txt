@@ -1,0 +1,14 @@
+Полное описание файла: https://github.com/owid/covid-19-data/blob/master/public/data/README.md
+
+2в) За последнюю неделю марта вывести 10 уникальных стран, в которых было зафиксировано максимальное кол-во новых случаев, с указанием даты, когда этот максимум был. 
+Вот теперь задание понятно.
+
+-) Отсекаю в dataframe лишние строки и столбцы
+	df2 = df.select('date', 'location', 'new_cases').where((col('date') >= '2021-03-25') & (col('date') <= '2021-03-31') & (col('continent') != '')))
+
+-) Оконной функцией добавляю колонку: нумерация строк по сортировке dataframe по полю new_cases по убыванию
+	w2 = Window().partitionBy('location').orderBy(desc('new_cases'))
+	df2 = df2.withColumn('row_num', row_number().over(w2))
+
+-) отбираю нужные колонки с условием на строки номер = 1, сортировка по убыванию и показать только первых 10 
+	df2.select('date', 'location', 'new_cases').where(col('row_num') == 1).sort(col('new_cases').desc()).show(10)
