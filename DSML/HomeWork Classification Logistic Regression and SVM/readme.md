@@ -2,7 +2,7 @@
 
 ## HomeWork Classification Logistic Regression and SVM
 
-Высылаю два решения:
+Высылаю три решения:
 
 1. Сравниваю предсказания с самими данными. Не очень хорошо, но сделал (HomeWork 11-2 var 1.ipynb)
 2. 2а) Разбил данные на обучающую и тестовую выборку (HomeWork 11-2 var 2.ipynb)
