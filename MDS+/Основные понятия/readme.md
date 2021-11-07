@@ -1,3 +1,3 @@
 # Study_netology
 
-## Математика для Data Science. Основные понятия
+## Mathematics for Data Science. Basic mathematical concepts.

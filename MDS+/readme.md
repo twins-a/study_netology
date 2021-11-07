@@ -1,3 +1,3 @@
 # Study_netology
 
-## Математика для Data Science.
+## Mathematics for Data Science.
