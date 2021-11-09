@@ -1,5 +1,5 @@
-# Study_netology
+п»ї# Study_netology
 
 ## HomeWork Loss functions and optimization
 
-Некоторые комменты внутри файлов
+РќРµРєРѕС‚РѕСЂС‹Рµ РєРѕРјРјРµРЅС‚С‹ РІРЅСѓС‚СЂРё С„Р°Р№Р»РѕРІ
