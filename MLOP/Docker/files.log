@@ -1,0 +1,69 @@
+
+atulyev@it-tulev MINGW64 /d/DevOps/Docker
+$ docker build -t netology-ml:netology-ml .
+#1 [internal] load build definition from Dockerfile
+#1 sha256:20188d8f2492f81387bec79f3e404563eb7e9fbc18690a543be25d32058f1c06
+#1 transferring dockerfile: 403B done
+#1 DONE 0.0s
+
+#2 [internal] load .dockerignore
+#2 sha256:e226fe487ba4a64745c3ae8e262f8bedf88eb03757fb1b0f8f6281fed4c52b5b
+#2 transferring context: 2B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/continuumio/miniconda3:latest
+#3 sha256:70c01be2623751a8f6df5d5b392c0445964bc863c94f2ca91c3dab835106ad61
+#3 DONE 0.8s
+
+#4 [1/7] FROM docker.io/continuumio/miniconda3:latest@sha256:592a60b95b547f31c11dc6593832e962952e3178f1fa11db37f43a2afe8df8d7
+#4 sha256:157c1fa7a4f64aea2114481e85d0788eecbbee90d5936f7496d46f0fe15283d1
+#4 DONE 0.0s
+
+#7 [internal] load build context
+#7 sha256:917c39eeb31baadb47a8974e40d9962a820112776acf155fbe29012dc3c0627b
+#7 transferring context: 52B done
+#7 DONE 0.0s
+
+#8 [4/7] COPY /app/1.sh .
+#8 sha256:55b2832346339cf1e24a69ee7c809962b03887ddaddb74a29400d036a53c27bf
+#8 CACHED
+
+#10 [6/7] RUN set -x pip install python
+#10 sha256:87c7c55431953d20194593c31ca8853805ce2fc7d5b76227763946b3edee3bae
+#10 CACHED
+
+#5 [2/7] RUN ["mkdir", "./app"]
+#5 sha256:4303d214d219e2e19544b4122771545984e92f5e1e602cedc65b012ed0d2ba22
+#5 CACHED
+
+#9 [5/7] RUN chmod +x /app/1.sh
+#9 sha256:9b16d8835e5a71b6d37ac71cc56281c358c12cdc3175017a493cec5c8b5b4caf
+#9 CACHED
+
+#6 [3/7] WORKDIR ./app
+#6 sha256:b410bac03da20ee382bb86e78458178f0faf67f9c78a47b5da044b813d2e66ad
+#6 CACHED
+
+#11 [7/7] RUN set -x pip install mlflow boto3 pymysql
+#11 sha256:5dc5bc57474fe3bd74429504bf724e37f659ce15cd0acd98ce5cb465dbb4e4c9
+#11 CACHED
+
+#12 exporting to image
+#12 sha256:e8c613e07b0b7ff33893b694f7759a10d42e180f2b4dc349fb57dc6b71dcab00
+#12 exporting layers done
+#12 writing image sha256:bf2e7c088d55081c6c799e745d7fcac4f859a4be580905d7bbb6a086dbdd16de done
+#12 naming to docker.io/library/netology-ml:netology-ml done
+#12 DONE 0.0s
+
+atulyev@it-tulev MINGW64 /d/DevOps/Docker
+$ docker run -d netology-ml:netology-ml
+35ec0924db08b91ae33312e26f3beb9e4f164f2c661b8a009a8455d742f0a0ad
+
+atulyev@it-tulev MINGW64 /d/DevOps/Docker
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+atulyev@it-tulev MINGW64 /d/DevOps/Docker
+$ docker ps -a
+CONTAINER ID   IMAGE                          COMMAND                  CREATED              STATUS                        PORTS                                                                                         NAMES
+35ec0924db08   netology-ml:netology-ml        "./1.sh"                 57 seconds ago       Exited (1) 57 seconds ago      
