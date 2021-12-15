@@ -1,0 +1,63 @@
+tulyev@it-tulev MINGW64 /d/DevOps/Docker
+$ docker build -t netology-ml:netology-ml .
+#1 [internal] load build definition from Dockerfile
+#1 sha256:463a51efc3106c63c48c509c5e15416a94e7122401239225f994e5d6a4ea33bd
+#1 transferring dockerfile: 32B done
+#1 DONE 0.0s
+
+#2 [internal] load .dockerignore
+#2 sha256:4d6a1e86ec44394137d3ae53227e58a0b581bf1faaef271b60b08a485e43213d
+#2 transferring context: 2B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/continuumio/miniconda3:latest
+#3 sha256:70c01be2623751a8f6df5d5b392c0445964bc863c94f2ca91c3dab835106ad61
+#3 ...
+
+#4 [auth] continuumio/miniconda3:pull token for registry-1.docker.io
+#4 sha256:47da876f5cf93183c31fb5630fde0cc529087643d11af5699ad437edcb3c1d9b
+#4 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/continuumio/miniconda3:latest
+#3 sha256:70c01be2623751a8f6df5d5b392c0445964bc863c94f2ca91c3dab835106ad61
+#3 DONE 1.8s
+
+#10 [1/5] FROM docker.io/continuumio/miniconda3:latest@sha256:592a60b95b547f31c11dc6593832e962952e3178f1fa11db37f43a2afe8df8d7
+#10 sha256:157c1fa7a4f64aea2114481e85d0788eecbbee90d5936f7496d46f0fe15283d1
+#10 DONE 0.0s
+
+#7 [internal] load build context
+#7 sha256:d8b8efef8a93bff76ae176d2d95315721754c00575b54092adf02924508c18b4
+#7 transferring context: 99B done
+#7 DONE 0.0s
+
+#5 [2/5] WORKDIR /app
+#5 sha256:b957f7597d8c5b44615d2c7c83e684d7248ba46457eb06d6287d9731e6e75e54
+#5 CACHED
+
+#6 [3/5] RUN pip install mlflow boto3 pymysql
+#6 sha256:0756cd5658b1dfc958d2f8575e83c8624b9bff9c4e9bd0dfdf36d94e3f49f870
+#6 CACHED
+
+#8 [4/5] COPY /app/1.sh .
+#8 sha256:04f25db9de6d1fd05e09f3542a61f4dfc51aeae86f6810832af149fc5310cd2c
+#8 CACHED
+
+#9 [5/5] RUN chmod +x /app/1.sh
+#9 sha256:b5990e4b57220372b94b4bc4e3185f4fe41182ff963118c4baa92be4ec662857
+#9 CACHED
+
+#11 exporting to image
+#11 sha256:e8c613e07b0b7ff33893b694f7759a10d42e180f2b4dc349fb57dc6b71dcab00
+#11 exporting layers done
+#11 writing image sha256:05ad8bb6d56b0fb3a6006094d356bd2a3223d3c175205c08d5e72e8fcfcf01e9 done
+#11 naming to docker.io/library/netology-ml:netology-ml done
+#11 DONE 0.0s
+
+atulyev@it-tulev MINGW64 /d/DevOps/Docker
+$ docker run netology-ml:netology-ml python -c "import boto3; print(boto3.__version__)"
+1.20.24
+
+atulyev@it-tulev MINGW64 /d/DevOps/Docker
+$ docker run netology-ml:netology-ml
+standard_init_linux.go:228: exec user process caused: no such file or directory
