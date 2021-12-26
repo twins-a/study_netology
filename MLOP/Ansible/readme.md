@@ -46,9 +46,9 @@ P.S. Warnings не поборол. Но задание отработало и так.
 	
 Прикладываю файлы и скрины:
 
-![Inventory](inventory)
+[Inventory](inventory)
 
-![Homework playbook](homework.yaml)
+[Homework playbook](homework.yaml)
 
 ![Screen1](Screen1.png)
 
